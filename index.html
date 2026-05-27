@@ -137,7 +137,7 @@
             IL-ĠUGARELLI
         </h1>
         <p class="text-xl text-gray-700 font-bold bg-white px-6 py-2 rounded-full shadow-md inline-block">
-            Read the English clues and fill in the Maltese toys!
+            Read the English clues and fill in the Maltese words!
         </p>
     </header>
 
@@ -637,21 +637,36 @@
             const overlay = document.getElementById('success-overlay');
             overlay.classList.remove('hidden');
             overlay.classList.add('flex');
-            
-            // Simple Confetti burst effect using DOM
-            for(let i=0; i<30; i++) {
+
+            const colors = ['#EC4899', '#3B82F6', '#F59E0B', '#10B981', '#A855F7', '#EF4444', '#06B6D4'];
+            const shapes = ['rounded-full', 'rounded-sm', 'rounded-none'];
+
+            for(let i = 0; i < 200; i++) {
                 const conf = document.createElement('div');
-                conf.className = 'absolute w-3 h-3 rounded-full';
-                conf.style.backgroundColor = ['#EC4899', '#3B82F6', '#F59E0B', '#10B981'][Math.floor(Math.random()*4)];
+                const size = 8 + Math.random() * 14;
+                conf.style.position = 'absolute';
+                conf.style.width = size + 'px';
+                conf.style.height = size + 'px';
+                conf.style.borderRadius = ['50%', '2px', '0'][Math.floor(Math.random() * 3)];
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 conf.style.left = '50%';
                 conf.style.top = '50%';
-                conf.style.transition = 'all 1s ease-out';
+                conf.style.transition = `all ${3.5 + Math.random() * 2.5}s cubic-bezier(0.1, 0.8, 0.3, 1)`;
+                conf.style.opacity = '1';
                 overlay.appendChild(conf);
-                
+
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = 400 + Math.random() * 900;
+                const dx = Math.cos(angle) * distance;
+                const dy = Math.sin(angle) * distance;
+                const rotation = (Math.random() - 0.5) * 1080;
+
                 setTimeout(() => {
-                    conf.style.transform = `translate(${(Math.random()-0.5)*500}px, ${(Math.random()-0.5)*500}px) scale(${Math.random()*2})`;
+                    conf.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotation}deg) scale(${0.2 + Math.random() * 0.8})`;
                     conf.style.opacity = '0';
-                }, 50);
+                }, 30 + i * 5);
+
+                setTimeout(() => conf.remove(), 5000);
             }
         }
 
